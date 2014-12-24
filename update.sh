@@ -14,7 +14,7 @@ rm -rf python_*
 
 set -x
 for version in ${python_versions[@]}; do
-	dir="python_$version"
+	dir="python-$version"
 	onbuildDir="$dir/onbuild"
 	mkdir -p "$onbuildDir"
 	cp Dockerfile "$dir/Dockerfile"
