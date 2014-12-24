@@ -1,27 +1,54 @@
 #!/bin/bash
 set -e
 
+latestPythonMajor='3'
+
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 versions=( */ )
-versions=( "${versions[@]%.*/}" )
+versions=( "${versions[@]%/}" )
 url='git://github.com/docker-library/django'
 
 echo '# maintainer: InfoSiftr <github@infosiftr.com> (@infosiftr)'
-echo
 
-fullVersion="$(grep -m1 'ENV DJANGO_VERSION ' Dockerfile | cut -d' ' -f3)"
-versionAliases=()
-for pyVersion in "${versions[@]}"; do
-	commit="$(git log -1 --format='format:%H')"
-	temp="$fullVersion"
-	while [ "${temp%.*}" != "$temp" ]; do
-		echo "$temp-$pyVersion: $url@$commit"
-		temp="${temp%.*}"
+for version in "${versions[@]}"; do
+	pyMajor="${version%.*}"
+	commit="$(git log -1 --format='format:%H' -- "$version")"
+	fullVersion="$(grep -m1 'ENV DJANGO_VERSION ' "$version/Dockerfile" | cut -d' ' -f3)"
+	versionAliases=( $fullVersion-$version )
+	versionAliases=()
+	while [ "${fullVersion%[.-]*}" != "$fullVersion" ]; do
+		versionAliases+=( $fullVersion-python$pyMajor )
+		if [ "$pyMajor" = "$latestPythonMajor" ]; then
+			versionAliases+=( $fullVersion )
+		fi
+		fullVersion="${fullVersion%[.-]*}"
 	done
-	echo "$temp-$pyVersion: $url@$commit"
-	if [ "$pyVersion" == "python-3" ]; then
-		echo "latest: $url@$commit"
+	versionAliases+=( $fullVersion-python$pyMajor )
+	if [ "$pyMajor" = "$latestPythonMajor" ]; then
+		versionAliases+=( $fullVersion )
 	fi
+	versionAliases+=( python$pyMajor )
+	if [ "$pyMajor" = "$latestPythonMajor" ]; then
+		versionAliases+=( latest )
+	fi
+	
+	echo
+	for va in "${versionAliases[@]}"; do
+		echo "$va: ${url}@${commit} $version"
+	done
+	
+	for variant in onbuild; do
+		commit="$(git log -1 --format='format:%H' -- "$version/$variant")"
+		
+		versionAliases=( python$pyMajor-$variant )
+		if [ "$pyMajor" = "$latestPythonMajor" ]; then
+			versionAliases+=( $variant )
+		fi
+		
+		echo
+		for va in "${versionAliases[@]}"; do
+			echo "$va: ${url}@${commit} $version/$variant"
+		done
+	done
 done
-
