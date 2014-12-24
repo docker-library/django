@@ -20,7 +20,7 @@ for pyVersion in "${versions[@]}"; do
 		temp="${temp%.*}"
 	done
 	echo "$temp-$pyVersion: $url@$commit"
-	if [ "$temp" == "1" ] && [ "$pyVersion" == "python-3" ]; then
+	if [ "$pyVersion" == "python-3" ]; then
 		echo "latest: $url@$commit"
 	fi
 done
