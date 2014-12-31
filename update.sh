@@ -20,8 +20,8 @@ for version in "${versions[@]}"; do
 		echo
 		grep 'RUN.*apt-get install' "$version/Dockerfile"
 		echo
-		echo 'EXPOSE 8080'
-		echo 'CMD ["python", "manage.py", "runserver"]'
+		echo 'EXPOSE 8000'
+		echo 'CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]'
 	} >> "$version/onbuild/Dockerfile"
 	
 	from="$(awk '$1 == "FROM" { print $2 }' "$version/onbuild/Dockerfile")"
