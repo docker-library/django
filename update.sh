@@ -19,12 +19,13 @@ for version in "${versions[@]}"; do
 	( set -x; curl -sSL "$pythonOnbuildDockerfile" -o "$version/onbuild/Dockerfile" )
 	{
 		echo
-		grep 'RUN.*apt-get install' "$version/Dockerfile"
+		# see http://stackoverflow.com/a/12776899 (line continuations eat our lunch)
+		sed -n ': begin; /\\$/ { N; b begin }; /apt-get/ p' "$version/Dockerfile"
 		echo
 		echo 'EXPOSE 8000'
 		echo 'CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]'
 	} >> "$version/onbuild/Dockerfile"
 	
 	from="$(awk '$1 == "FROM" { print $2 }' "$version/onbuild/Dockerfile")"
-	( set -x; sed -ri 's/^(FROM) .*/\1 '"$from"'/' "$version/Dockerfile" )
+	( set -x; sed -ri 's/^(FROM) .*/\1 '"$from"'-slim/' "$version/Dockerfile" )
 done
