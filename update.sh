@@ -10,7 +10,7 @@ fi
 versions=( "${versions[@]%/}" )
 
 #current="$(curl -sSL 'https://pypi.python.org/pypi/django/json' | awk -F '"' '$2 == "version" { print $4 }')" # UGH "1.8a1"
-current="$(curl -sSL 'https://pypi.python.org/pypi/django/json' | grep '^        "[0-9].*\[$' | cut -d '"' -f2 | grep -v '[0-9]a[0-9]' | sort -V | tail -1)" # TODO remove this heinous thing in favor of something better since it just filters out "1.8a1"
+current="$(curl -sSL 'https://pypi.python.org/pypi/django/json' | grep '^        "[0-9].*\[$' | cut -d '"' -f2 | grep -v '[0-9][ab][0-9]' | sort -V | tail -1)" # TODO remove this heinous thing in favor of something better since it just filters out "1.8a1" and "1.8b1"
 
 for version in "${versions[@]}"; do
 	( set -x; sed -ri 's/^(ENV DJANGO_VERSION) .*/\1 '"$current"'/' "$version/Dockerfile" )
