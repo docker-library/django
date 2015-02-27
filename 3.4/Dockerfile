@@ -1,4 +1,4 @@
-FROM python:3.4.2-slim
+FROM python:3.4.3-slim
 
 RUN apt-get update && apt-get install -y \
 		mysql-client libmysqlclient-dev \
