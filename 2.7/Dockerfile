@@ -1,4 +1,4 @@
-FROM python:2.7.9-slim
+FROM python:2.7-slim
 
 RUN apt-get update && apt-get install -y \
 		mysql-client libmysqlclient-dev \
