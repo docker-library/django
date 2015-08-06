@@ -1,0 +1,23 @@
+language: bash
+
+# for secret experimental features ;)
+sudo: 9000
+
+env:
+  - PY_VERSION=3.4
+  - PY_VERSION=2.7
+
+install:
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+
+before_script:
+  - env | sort
+  - cd "$PY_VERSION"
+  - image="django:python$PY_VERSION"
+
+script:
+  - docker build -t "$image" .
+  - ~/official-images/test/run.sh "$image"
+  - docker build -t "$image-onbuild" onbuild
+
+# vim:set et ts=2 sw=2:
