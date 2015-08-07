@@ -20,4 +20,7 @@ script:
   - ~/official-images/test/run.sh "$image"
   - docker build -t "$image-onbuild" onbuild
 
+after_script:
+  - docker images
+
 # vim:set et ts=2 sw=2:
