@@ -13,7 +13,7 @@ echo '# maintainer: InfoSiftr <github@infosiftr.com> (@infosiftr)'
 
 for version in "${versions[@]}"; do
 	pyMajor="${version%.*}"
-	commit="$(git log -1 --format='format:%H' -- "$version")"
+	commit="$(cd "$version" && git log -1 --format='format:%H' -- Dockerfile $(awk 'toupper($1) == "COPY" { for (i = 2; i < NF; i++) { print $i } }' Dockerfile))"
 	fullVersion="$(grep -m1 'ENV DJANGO_VERSION ' "$version/Dockerfile" | cut -d' ' -f3)"
 	versionAliases=( $fullVersion-$version )
 	versionAliases=()
@@ -39,7 +39,7 @@ for version in "${versions[@]}"; do
 	done
 	
 	for variant in onbuild; do
-		commit="$(git log -1 --format='format:%H' -- "$version/$variant")"
+		commit="$(cd "$version/$variant" && git log -1 --format='format:%H' -- Dockerfile $(awk 'toupper($1) == "COPY" { for (i = 2; i < NF; i++) { print $i } }' Dockerfile))"
 		
 		versionAliases=( python$pyMajor-$variant )
 		if [ "$pyMajor" = "$latestPythonMajor" ]; then
