@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
 		mysql-client libmysqlclient-dev \
 		postgresql-client libpq-dev \
 		sqlite3 \
+        gettext \
 		gcc \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
