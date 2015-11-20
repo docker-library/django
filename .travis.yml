@@ -1,7 +1,5 @@
 language: bash
-
-# for secret experimental features ;)
-sudo: 9000
+services: docker
 
 env:
   - PY_VERSION=3.4
