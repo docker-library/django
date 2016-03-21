@@ -1,12 +1,11 @@
-FROM python:2.7-slim
+FROM alpine:3.3
 
-RUN apt-get update && apt-get install -y \
-		gcc \
-		gettext \
-		mysql-client libmysqlclient-dev \
-		postgresql-client libpq-dev \
-		sqlite3 \
-	--no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apk add --update \
+               gcc musl-dev python-dev py-pip \
+               mariadb-dev \
+               postgresql-dev \
+               sqlite && \
+        rm -rf /var/cache/apk/*
 
 ENV DJANGO_VERSION 1.9.4
 
