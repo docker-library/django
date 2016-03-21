@@ -1,11 +1,11 @@
 FROM alpine:3.3
 
-RUN apk add --update \
+RUN apk add \
                gcc musl-dev python-dev py-pip \
                mariadb-dev \
                postgresql-dev \
-               sqlite && \
-        rm -rf /var/cache/apk/*
+               sqlite \
+        --update-cache && rm -rf /var/cache/apk/*
 
 ENV DJANGO_VERSION 1.9.4
 

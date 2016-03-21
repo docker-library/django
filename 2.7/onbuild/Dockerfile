@@ -8,12 +8,12 @@ ONBUILD RUN pip install --no-cache-dir -r requirements.txt
 
 ONBUILD COPY . /usr/src/app
 
-RUN apk add --update \
+RUN apk add \
                gcc musl-dev python-dev py-pip \
                mariadb-dev \
                postgresql-dev \
-               sqlite && \
-        rm -rf /var/cache/apk/*
+               sqlite \
+        --update-cache && rm -rf /var/cache/apk/*
 
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
