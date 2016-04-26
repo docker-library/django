@@ -2,7 +2,7 @@
 
 This is the Git repo of the Docker [official image](https://docs.docker.com/docker-hub/official_repos/) for [django](https://registry.hub.docker.com/_/django/). See [the Docker Hub page](https://registry.hub.docker.com/_/django/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
 
-The full readme is generated over in [docker-library/docs](https://github.com/docker-library/docs), specificially in [docker-library/docs/django](https://github.com/docker-library/docs/tree/master/django).
+The full readme is generated over in [docker-library/docs](https://github.com/docker-library/docs), specifically in [docker-library/docs/django](https://github.com/docker-library/docs/tree/master/django).
 
 See a change merged here that doesn't show up on the Docker Hub yet? Check [the "library/django" manifest file in the docker-library/official-images repo](https://github.com/docker-library/official-images/blob/master/library/django), especially [PRs with the "library/django" label on that repo](https://github.com/docker-library/official-images/labels/library%2Fdjango). For more information about the official images process, see the [docker-library/official-images readme](https://github.com/docker-library/official-images/blob/master/README.md).
 
