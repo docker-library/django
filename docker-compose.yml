@@ -9,6 +9,6 @@ services:
         volumes:
             - .:/usr/src/app
         working_dir: /usr/src/app
-        command: pip install -r requirements.txt && python manage.py runserver 0.0.0.0:8000
+        command: bash -c "pip install -r requirements.txt && python manage.py runserver 0.0.0.0:8000"
         ports:
             - 8000:8000
