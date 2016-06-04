@@ -1,4 +1,8 @@
-version: 2
+# copy this file to your django project folder
+# use `docker-compose up` to bring up your app
+# visit `https://docs.docker.com/compose` for more details on compose
+
+version: "2"
 services:
     django-app:
         image: django
