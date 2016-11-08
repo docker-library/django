@@ -1,20 +1,20 @@
-FROM python:2.7
+FROM alpine:3.3
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ONBUILD COPY requirements.txt /usr/src/app/
-ONBUILD RUN pip install --no-cache-dir -r requirements.txt
+ONBUILD RUN apk add --virtual=build-deps --update-cache \
+                    gcc musl-dev python-dev \
+                    mariadb-dev postgresql-dev && \
+            pip install --no-cache-dir -r requirements.txt && \
+            apk del build-deps && rm -rf /var/cache/apk/*
 
 ONBUILD COPY . /usr/src/app
 
-RUN apt-get update && apt-get install -y \
-		gcc \
-		gettext \
-		mysql-client libmysqlclient-dev \
-		postgresql-client libpq-dev \
-		sqlite3 \
-	--no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apk add --update-cache \
+            bash py-pip \
+            mariadb-libs libpq sqlite && rm -rf /var/cache/apk/*
 
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

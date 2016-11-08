@@ -2,7 +2,7 @@ language: bash
 services: docker
 
 env:
-  - PY_VERSION=3.4
+  - PY_VERSION=3.5
   - PY_VERSION=2.7
 
 install:
