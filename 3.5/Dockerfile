@@ -1,6 +1,6 @@
 FROM alpine:3.3
 
-ENV DJANGO_VERSION 1.9.4
+ENV DJANGO_VERSION 1.9.5
 
 RUN apk add --update-cache \
             bash python3 \
