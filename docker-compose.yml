@@ -1,0 +1,14 @@
+# copy this file to your django project folder
+# use `docker-compose up` to bring up your app
+# visit `https://docs.docker.com/compose` for more details on compose
+
+version: "2"
+services:
+    django-app:
+        image: django
+        volumes:
+            - .:/usr/src/app
+        working_dir: /usr/src/app
+        command: bash -c "pip install -r requirements.txt && python manage.py runserver 0.0.0.0:8000"
+        ports:
+            - 8000:8000
